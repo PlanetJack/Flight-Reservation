@@ -1,0 +1,86 @@
+﻿<Window x:Class="Traveless.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Traveless"
+        mc:Ignorable="d"
+        Title="Traveless" Height="575" Width="800" Closing="Window_Closing">
+    <TabControl>
+        <TabItem Header="Flights">
+            <Grid Background="#FFE5E5E5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="340"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                    <TextBlock FontSize="36" TextAlignment="Center">Flights</TextBlock>
+                    <ListView Name="FlightsListView" Height="252" ItemsSource="{Binding FlightViewModels}" SelectionChanged="FlightsListView_SelectionChanged" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Code" DisplayMemberBinding="{Binding Code}"/>
+                                <GridViewColumn Header="From" DisplayMemberBinding="{Binding From}"/>
+                                <GridViewColumn Header="To" DisplayMemberBinding="{Binding To}"/>
+                                <GridViewColumn Header="Day" DisplayMemberBinding="{Binding WeekDay}"/>
+                                <GridViewColumn Header="Cost (per seat)" DisplayMemberBinding="{Binding CostPerSeat}" />
+                                <GridViewColumn Header="Seats" DisplayMemberBinding="{Binding AvailableSeats}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+                    <TextBlock FontSize="36" TextAlignment="Center">Reserve</TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical" Width="400">
+                    <TextBlock FontSize="36" HorizontalAlignment="Center">Search</TextBlock>
+
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Reservations">
+            <Grid Background="#FFE5E5E5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="340"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                    <TextBlock FontSize="36" TextAlignment="Center">Reservations</TextBlock>
+                    <ListView Name="ReservationsListView" Height="250" ItemsSource="{Binding ReservationViewModels}" SelectionChanged="ReservationsListView_SelectionChanged">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Code" DisplayMemberBinding="{Binding Code}" />
+                                <GridViewColumn Header="Flight" DisplayMemberBinding="{Binding Flight}"/>
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="Citizenship" DisplayMemberBinding="{Binding Citizenship}"/>
+                                <GridViewColumn Header="Active" DisplayMemberBinding="{Binding IsActive}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+                    <TextBlock FontSize="36" TextAlignment="Center">Reserve</TextBlock>
+
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical" Width="300">
+                    <TextBlock FontSize="36" HorizontalAlignment="Center">Search</TextBlock>
+
+                   
+                </StackPanel>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Window>
