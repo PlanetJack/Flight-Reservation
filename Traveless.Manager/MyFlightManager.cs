@@ -24,16 +24,39 @@ namespace Traveless.Manager
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FLIGHTS_FILE);
 
             // Open StreamReader at path
+            using (StreamReader reader = new StreamReader(path))
+            {
+                string line;
 
-            // Loop through each line in the file
-            //  Transform line into cells using a comma (,)
+                // Loop through each line in the file
+                while ((line = reader.ReadLine()) != null)
+                {
+                    //  Transform line into cells using a comma (,)
+                    string[] cells = line.Split(',');
 
-            //  Check number of cells is not 7
-            //      Do next iteration of loop if incorrect number of cells
+                    //  Check number of cells is not 7
+                    if (cells.Length != 7)
+                    {
+                        //Do next iteration of loop if incorrect number of cells
+                        continue;
+                    }
+                    //  Create Flight instance from cells
+                    Flight flight = new Flight(
+                       cells[0],
+                       cells[1],
+                       cells[2],
+                       cells[3],
+                       cells[4],
+                       int.Parse(cells[5]),
+                       decimal.Parse(cells[6])
+                       );
 
-            //  Create Flight instance from cells
-            //  Add Flight instance to _flights list
+                    //  Add Flight instance to _flights list
+                    _flights.Add(flight);
 
+                    line = reader.ReadLine();
+                }
+            }
         }
 
         /// <summary>
@@ -44,8 +67,15 @@ namespace Traveless.Manager
         public override Flight? FindFlightByCode(string code)
         {
             // Loop through each flight in Flights
-            //  Check current flight code exactly matches code argument
-            //      Return current Flight instance to calling method
+            foreach (Flight flight in _flights)
+            {
+                //  Check current flight code exactly matches code argument
+                if (flight.Code == code)
+                {
+                    //Return current Flight instance to calling method
+                    return flight;
+                }
+            }
 
             // Return null to calling method if no flight with code is found.
             return null;

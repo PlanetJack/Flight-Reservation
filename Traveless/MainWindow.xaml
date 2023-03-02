@@ -14,11 +14,12 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="89*"></ColumnDefinition>
+                    <ColumnDefinition Width="308*"/>
+                    <ColumnDefinition Width="397*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Grid.ColumnSpan="2">
                     <TextBlock FontSize="36" TextAlignment="Center">Flights</TextBlock>
                     <ListView Name="FlightsListView" Height="252" ItemsSource="{Binding FlightViewModels}" SelectionChanged="FlightsListView_SelectionChanged" >
                         <ListView.View>
@@ -27,21 +28,43 @@
                                 <GridViewColumn Header="From" DisplayMemberBinding="{Binding From}"/>
                                 <GridViewColumn Header="To" DisplayMemberBinding="{Binding To}"/>
                                 <GridViewColumn Header="Day" DisplayMemberBinding="{Binding WeekDay}"/>
-                                <GridViewColumn Header="Cost (per seat)" DisplayMemberBinding="{Binding CostPerSeat}" />
+                                <GridViewColumn Header="Cost (per seat)" DisplayMemberBinding="{Binding CostPerSeat, StringFormat={}{0:C}}"/>
                                 <GridViewColumn Header="Seats" DisplayMemberBinding="{Binding AvailableSeats}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
                 </StackPanel>
 
-                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+                <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Vertical">
                     <TextBlock FontSize="36" TextAlignment="Center">Reserve</TextBlock>
                 </StackPanel>
 
-                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical" Width="400">
+                <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Vertical" Width="400" Margin="108,0,197,6">
                     <TextBlock FontSize="36" HorizontalAlignment="Center">Search</TextBlock>
 
                 </StackPanel>
+                <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="30,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" Height="18" TextAlignment="Right"><Run Text="Flight:"/><LineBreak/><Run/></TextBlock>
+                <TextBox Name="flightNameInput" HorizontalAlignment="Left" Margin="97,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" Grid.Column="2" IsReadOnly="True"/>
+                <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="38,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Right"><Run Language="en-ca" Text="Airline:"/></TextBlock>
+                <TextBox Name="airlineInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" IsReadOnly="True"/>
+                <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="51,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="en-ca" Text="Day:"/></TextBlock>
+                <TextBox Name="dayInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" IsReadOnly="True"/>
+                <TextBox Name="timeInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" IsReadOnly="True"/>
+                <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="46,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="en-ca" Text="Time:"/></TextBlock>
+                <TextBox Name="costInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" IsReadOnly="True" />
+                <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="48,169,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="en-ca" Text="Cost:"/></TextBlock>
+                <TextBox Name="nameInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266"/>
+                <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="40,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="en-ca" Text="Name:"/></TextBlock>
+                <TextBox Name="citizenshipInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" Height="16"/>
+                <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="14,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="en-ca" Text="Citizenship:"/></TextBlock>
+                <Button x:Name="Reserve" Grid.Column="2" Content="Reserve" HorizontalAlignment="Center" Margin="0,266,0,0" VerticalAlignment="Top" Height="28" Width="84" Click="FlightsReserveButton_Click"/>
+                <Button x:Name="Search" Content="Search" HorizontalAlignment="Left" Margin="271,144,0,0" VerticalAlignment="Top" Height="28" Width="74" Click="FlightsSearchButton_Click" RenderTransformOrigin="-1.593,6.017" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1"/>
+                <TextBlock HorizontalAlignment="Left" Margin="112,54,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1"><Run Language="ko-kr" Text="From:"/></TextBlock>
+                <ComboBox Name="fromCombo" ItemsSource="{Binding AirportViewModels}" HorizontalAlignment="Left" Margin="156,52,0,0" Grid.Row="1" VerticalAlignment="Top" Width="351" Grid.ColumnSpan="2" Grid.Column="1"/>
+                <TextBlock HorizontalAlignment="Left" Margin="127,84,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1"><Run Language="ko-kr" Text="To"/><Run Text=":"/></TextBlock>
+                <ComboBox Name="toCombo" ItemsSource="{Binding AirportViewModels}" HorizontalAlignment="Left" Margin="157,81,0,0" Grid.Row="1" VerticalAlignment="Top" Width="351" Grid.ColumnSpan="2" Grid.Column="1"/>
+                <TextBlock HorizontalAlignment="Left" Margin="119,114,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1"><Run Language="ko-kr" Text="Day"/><Run Text=":"/></TextBlock>
+                <ComboBox Name="dayCombo" ItemsSource="{Binding WeekdayViewModels}" HorizontalAlignment="Left" Margin="157,111,0,0" Grid.Row="1" VerticalAlignment="Top" Width="351" Grid.ColumnSpan="2" Grid.Column="1"/>
             </Grid>
         </TabItem>
         <TabItem Header="Reservations">
@@ -55,21 +78,6 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical">
-                    <TextBlock FontSize="36" TextAlignment="Center">Reservations</TextBlock>
-                    <ListView Name="ReservationsListView" Height="250" ItemsSource="{Binding ReservationViewModels}" SelectionChanged="ReservationsListView_SelectionChanged">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Code" DisplayMemberBinding="{Binding Code}" />
-                                <GridViewColumn Header="Flight" DisplayMemberBinding="{Binding Flight}"/>
-                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
-                                <GridViewColumn Header="Citizenship" DisplayMemberBinding="{Binding Citizenship}"/>
-                                <GridViewColumn Header="Active" DisplayMemberBinding="{Binding IsActive}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </StackPanel>
-
                 <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
                     <TextBlock FontSize="36" TextAlignment="Center">Reserve</TextBlock>
 
@@ -78,8 +86,70 @@
                 <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical" Width="300">
                     <TextBlock FontSize="36" HorizontalAlignment="Center">Search</TextBlock>
 
-                   
+
                 </StackPanel>
+                <Grid Background="#FFE5E5E5" Grid.ColumnSpan="2" Margin="0,0,0,-143" Grid.RowSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="340"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="26*"/>
+                        <ColumnDefinition Width="371*"/>
+                        <ColumnDefinition Width="397*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Grid.ColumnSpan="2">
+                        <TextBlock FontSize="36" TextAlignment="Center"><Run Text="Reservations"/></TextBlock>
+                        <ListView x:Name="ReservationsListView" Height="250" ItemsSource="{Binding ReservationViewModels}" SelectionChanged="ReservationsListView_SelectionChanged">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Code" DisplayMemberBinding="{Binding Code}" />
+                                    <GridViewColumn Header="Flight" DisplayMemberBinding="{Binding Flight}"/>
+                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Header="Citizenship" DisplayMemberBinding="{Binding Citizenship}"/>
+                                    <GridViewColumn Header="Active" DisplayMemberBinding="{Binding IsActive}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Vertical">
+                        <TextBlock FontSize="36" TextAlignment="Center"><Run Text="Reserve"/></TextBlock>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Vertical" Width="300" Margin="221,0,247,162">
+                        <TextBlock FontSize="36" HorizontalAlignment="Center"><Run Text="Search"/></TextBlock>
+
+
+                    </StackPanel>
+                    <Button x:Name="ReserveUpdatebtn" Grid.Column="2" Content="Update" HorizontalAlignment="Left" Margin="166,269,0,0" VerticalAlignment="Top" Height="28" Width="84" Click="ReservationsUpdateButton_Click"/>
+                    <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="30,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" Height="18" TextAlignment="Right"><Run Language="en-ca" Text="Code:"/></TextBlock>
+                    <TextBox Name="reserveCodeInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" IsReadOnly="True"/>
+                    <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="42,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Right"><Run Language="en-ca" Text="Flight:"/></TextBlock>
+                    <TextBox Name="reserveFlightInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" IsReadOnly="True"/>
+                    <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="40,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="en-ca" Text="Airline:"/></TextBlock>
+                    <TextBox Name="reserveAirlineInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" IsReadOnly="True"/>
+                    <TextBox Name="reserveCostInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" IsReadOnly="True"/>
+                    <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="46,140,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="en-ca" Text="Cost:"/></TextBlock>
+                    <TextBox Name="reserveNameInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266"/>
+                    <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="40,169,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="en-ca" Text="Name:"/></TextBlock>
+                    <TextBox Name="reserveCitizenInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266"/>
+                    <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="39,228,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="en-ca" Text="Status:"/></TextBlock>
+                    <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="16,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Language="en-ca" Text="Citizenship:"/></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="158,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1"><Run Language="en-ca" Text="Reservation Code:"/></TextBlock>
+                    <TextBox Name="reservationCodeTextBox" HorizontalAlignment="Left" Margin="278,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1"/>
+                    <TextBox Name="reservationAirlineCodeTextBox" HorizontalAlignment="Left" Margin="278,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="186,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1"><Run Language="en-ca" Text="Airline Code:"/></TextBlock>
+                    <TextBox Name="reservationNameTextBox" HorizontalAlignment="Left" Margin="278,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="191" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="221,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1"><Run Language="en-ca" Text="Name:"/></TextBlock>
+                    <Button x:Name="ReserveSearchBtn" Content="Search" HorizontalAlignment="Left" Margin="329,135,0,0" VerticalAlignment="Top" Height="28" Width="84" Click="ReservationsSearchButton_Click" Grid.ColumnSpan="2" Grid.Row="1" Grid.Column="1"/>
+                    <ComboBox Name="ReserveStatus" Grid.Column="2" HorizontalAlignment="Left" Margin="97,228,0,0" VerticalAlignment="Top" Width="266" Height="22">
+                        <ComboBoxItem>Active</ComboBoxItem>
+                        <ComboBoxItem>Inactive</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
             </Grid>
         </TabItem>
     </TabControl>

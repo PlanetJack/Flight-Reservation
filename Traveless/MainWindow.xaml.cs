@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using Traveless.Manager;
 using Traveless.Manager.Abstract;
 using Traveless.Manager.Entities;
@@ -93,14 +94,17 @@ namespace Traveless
         private void FlightsSearchButton_Click(object sender, RoutedEventArgs e)
         {
             // Gets the from/to airport codes and weekday that the user selected
-
             // Get from airport code that user selected
+            string fromAirportCode = ((Airport)fromCombo.SelectedItem)?.Code;
 
             // Get to airport code that user selected
+            string toAirportCode = ((Airport)toCombo.SelectedItem)?.Code;
 
             // Get the weekday the user selected (as a string)
+            string weekDay = (string)dayCombo.SelectedItem;
 
             // Pass from, to, and weekDay to SearchFlights method
+            SearchFlights(fromAirportCode, toAirportCode, weekDay);
         }
 
         /// <summary>
@@ -112,21 +116,26 @@ namespace Traveless
             if (fvw != null)
             {
                 // Set Flight tab "Flight" input value to selected flight code
-                
-                var airline = AirlineManager.FindAirline(fvw.Flight.AirlineCode);
-                
+                flightNameInput.Text = fvw.Flight.Code;
+
                 // Set Flight tab "Airline" input value to selected airline name
+                airlineInput.Text = AirlineManager.FindAirline(fvw.Flight.AirlineCode)?.Name;
 
                 // Set Flight tab "Day" input to selected weekday
+                dayInput.Text = fvw.Flight.WeekDay.ToString();
 
                 // Set Flight tab "Time" input to selected time
+                timeInput.Text = fvw.Flight.Time.ToString();
 
                 // Create costPerSeatFormatted variable
                 // Assign CostPerSeat in currency format to costPerSeatFormatted
+                string costPerSeatFormatted = fvw.Flight.CostPerSeat.ToString("C");
 
                 // Set Flight tab "Cost" input to costPerSeatFormatted
+                costInput.Text = costPerSeatFormatted;
             }
         }
+
 
         /// <summary>
         /// Tries to make a reservation when the user clicks the 'Reserve' button
@@ -143,12 +152,16 @@ namespace Traveless
             if (flight != null)
             {
                 // Get Flight tab "Name" input value
+                string name = nameInput.Text;
 
                 // Get Flight tab "Citizenship" input value
+                string citizenship = citizenshipInput.Text;
 
                 // Call ReserveFlight with flight, name, and citizenship
+                ReserveFlight(flight, name, citizenship);
 
                 // Set Flight tab "Name" input value to empty string
+                nameInput.Text = string.Empty;
             }
         }
 
@@ -160,12 +173,16 @@ namespace Traveless
         private void ReservationsSearchButton_Click(object sender, RoutedEventArgs e)
         {
             // Get reservation code search input value
+            string reservationCode = reservationCodeTextBox.Text;
 
             // Get airline code search input value
+            string airlineCode = reservationAirlineCodeTextBox.Text;
 
             // Get name search input value
+            string name = reservationNameTextBox.Text;
 
             // Call SearchReservations with reservation code, airline code, and name
+            SearchReservations(reservationCode, airlineCode, name);
         }
 
         /// <summary>
@@ -177,26 +194,39 @@ namespace Traveless
             if (rvm != null)
             {
                 // Set "Code" input value to reservation code
+                reserveCodeInput.Text = rvm.Reservation.Code;
 
                 // Set "Flight" input value to flight code
-
-                
-                var airline = AirlineManager.FindAirline(rvm.Reservation.Flight.AirlineCode);
+                reserveFlightInput.Text = rvm.Reservation.Flight.Code;
 
                 // Set "Airline" input value to airline name (not code)
+                var airline = AirlineManager.FindAirline(rvm.Reservation.Flight.AirlineCode);
+                reserveAirlineInput.Text = airline?.Name;
 
                 // Declare variable costPerSeatFormatted and assign the cost per seat in currency format.
+                var costPerSeatFormatted = rvm.Reservation.Flight.CostPerSeat.ToString("C");
 
                 // Set "Cost" input value to costPerSeatFormatted
-
-                // Set "Name" input value to name on reservation
+                reserveCostInput.Text = costPerSeatFormatted;
                 
+                // Set "Name" input value to name on reservation
+                reserveNameInput.Text = rvm.Name;
+
                 // Set "Citizenship" input value to citizenship on reservation
+                reserveCitizenInput.Text = rvm.Citizenship;
 
                 // Check if reservation is active
-                    // Select "Active" option in "Status" combobox
+                // Select "Active" option in "Status" combobox
                 // Otherwise
-                    // Select "Inactive" option in "Status" combobox
+                // Select "Inactive" option in "Status" combobox
+                if (rvm.IsActive)
+                {
+                    ReserveStatus.SelectedItem = "Active";
+                }
+                else
+                {
+                    ReserveStatus.SelectedItem = "Inactive";
+                }
             }
         }
 
@@ -208,19 +238,28 @@ namespace Traveless
         private void ReservationsUpdateButton_Click(object sender, RoutedEventArgs e)
         {
             // Get reservation code input value
-
+            string reservationCode = reserveCodeInput.Text;
             // Get "Name" input value
-
+            string name = reserveNameInput.Text;
             // Get "Citizenship" input value
-
+            string citizenship = reserveCitizenInput.Text;
             // Create bool variable called "isReservationActive"
-
-            // Check if "Status" combobo has "Active" selected
-                // Assign true to "isReservationActive"
+            bool isReservationActive;
+            // Check if "Status" combobox has "Active" selected
+            // Assign true to "isReservationActive"
             // Otherwise
-                // Assign false to "isReservationActive"
+            // Assign false to "isReservationActive"
+            if (ReserveStatus.SelectedItem != null && ReserveStatus.SelectedItem.ToString() == "Active")
+            {
+                isReservationActive = true;
+            }
+            else
+            {
+                isReservationActive = false;
+            }
 
             // Call UpdateReservation method with code, name, citizenship, and isActive
+            ReservationManager.Update(reservationCode, name, citizenship, isReservationActive);
         }
 
 
@@ -343,8 +382,10 @@ namespace Traveless
             foreach (var reservation in ReservationManager.Reservations)
             {
                 bool noSearchCriteria = code == null && airlineCode == null && name == null ? true : false;
-                bool criteriaMatches = reservation.Code.Contains(code) && reservation.Flight.AirlineCode.Contains(airlineCode) && reservation.Name.Contains(name) ? true : false;
-
+                //bool criteriaMatches = reservation.Code.Contains(code) && reservation.Flight.AirlineCode.Contains(airlineCode) && reservation.Name.Contains(name) ? true : false;
+                bool criteriaMatches = (string.IsNullOrEmpty(code) || reservation.Code.Contains(code))
+                               && (string.IsNullOrEmpty(airlineCode) || reservation.Flight.AirlineCode.Contains(airlineCode))
+                               && (string.IsNullOrEmpty(name) || reservation.Name.Contains(name));
                 if (noSearchCriteria || criteriaMatches)
                 {
                     var rvm = new ReservationViewModel(reservation);

@@ -24,17 +24,29 @@ namespace Traveless.Manager
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AIRLINES_FILE);
 
             // Open StreamReader at path
+            using (StreamReader reader = new StreamReader(path))
+            {
+                string line;
+                // Loop through each line in the file
+                while ((line = reader.ReadLine()) != null)
+                {
+                    //  Transform line into cells using a comma (,)
+                    string[] cell = line.Split(',');
+                    //  Check number of cells is not 2
+                    if (cell.Length != 2)
+                    {
+                        //      Do next iteration of loop if incorrect number of cells
+                        continue;
+                    }
+                    //  Create Airline instance from cells
+                    Airline airline = new Airline(cell[0], cell[1]);
 
-            // Loop through each line in the file
-            //  Transform line into cells using a comma (,)
+                    //  Add Airline instance to _airlines list
+                    _airlines.Add(airline);
 
-            //  Check number of cells is not 2
-            //      Do next iteration of loop if incorrect number of cells
-
-            //  Create Airline instance from cells
-
-            //  Add Airline instance to _airlines list
-
+                    line = reader.ReadLine();
+                }
+            }
             // Close StreamReader
         }
     }

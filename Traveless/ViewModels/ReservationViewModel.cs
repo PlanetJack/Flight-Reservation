@@ -35,7 +35,7 @@ namespace Traveless.ViewModels
         /// <summary>
         /// Whether reservation is active
         /// </summary>
-        public string IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         /// <summary>
         /// Constructors view model
@@ -48,7 +48,7 @@ namespace Traveless.ViewModels
             Flight = reservation.Flight.Code;
             Name = reservation.Name;
             Citizenship = reservation.Citizenship;
-            IsActive = reservation.IsActive.ToString();
+            IsActive = reservation.IsActive;
         }
     }
 }
