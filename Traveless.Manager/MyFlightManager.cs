@@ -53,8 +53,6 @@ namespace Traveless.Manager
 
                     //  Add Flight instance to _flights list
                     _flights.Add(flight);
-
-                    line = reader.ReadLine();
                 }
             }
         }

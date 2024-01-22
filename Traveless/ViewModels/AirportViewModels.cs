@@ -24,7 +24,7 @@ namespace Traveless.ViewModels
         {
             foreach (Airport airport in airports)
             {
-                Add(airport.ToString());
+                Add(airport.Code);
             }
         }
 

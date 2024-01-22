@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -95,16 +96,23 @@ namespace Traveless
         {
             // Gets the from/to airport codes and weekday that the user selected
             // Get from airport code that user selected
-            string fromAirportCode = ((Airport)fromCombo.SelectedItem)?.Code;
+            string? fromAirportCode = fromCombo.SelectedItem as string;
 
             // Get to airport code that user selected
-            string toAirportCode = ((Airport)toCombo.SelectedItem)?.Code;
+            string? toAirportCode = toCombo.SelectedItem as string;
 
-            // Get the weekday the user selected (as a string)
-            string weekDay = (string)dayCombo.SelectedItem;
+            if (!string.IsNullOrEmpty(fromAirportCode) && !string.IsNullOrEmpty(toAirportCode))
+            {
+                // Get the weekday the user selected (as a string)
+                string weekDay = (string)dayCombo.SelectedItem;
 
-            // Pass from, to, and weekDay to SearchFlights method
-            SearchFlights(fromAirportCode, toAirportCode, weekDay);
+                // Pass from, to, and weekDay to SearchFlights method
+                SearchFlights(fromAirportCode, toAirportCode, weekDay);
+            }
+            else
+            {
+                MessageBox.Show("Please select both 'From' and 'To' airports.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>
@@ -275,7 +283,7 @@ namespace Traveless
         /// <param name="to">Include flights going to this airport</param>
         /// <param name="weekDay">Include flights on this weekday, or, null to include any weekday</param>
         /// <remarks>If all parameters are null, all flights are added to listview</remarks>
-        private void PopulateFlights(string? from, string? to, string? weekDay)
+        private void PopulateFlights(string? from, string? to, string? weekday)
         {
             // Clear out any existing flight view models
             // Not clearing the list will cause items to be appended to the bottom of the list.
@@ -284,10 +292,10 @@ namespace Traveless
             foreach (var flight in FlightManager.Flights)
             {
                 // Include flight if from, to, and weekDay is null
-                bool noSearchCriteria = (from == null && to == null && weekDay == null) ? true : false;
+                bool noSearchCriteria = (from == null && to == null && weekday == null) ? true : false;
 
                 // Check flight from / to matches what selected
-                bool matchingSearchCriteria = (flight.From == from && flight.To == to && (weekDay == null || flight.WeekDay == weekDay)) ? true : false;
+                bool matchingSearchCriteria = (flight.From == from && flight.To == to && (weekday == null || flight.WeekDay == weekday)) ? true : false;
 
                 if (noSearchCriteria || matchingSearchCriteria)
                 {
