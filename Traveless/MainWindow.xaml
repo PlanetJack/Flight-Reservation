@@ -124,7 +124,7 @@
 
 
                     </StackPanel>
-                    <Button x:Name="ReserveUpdatebtn" Grid.Column="2" Content="Update" HorizontalAlignment="Left" Margin="166,269,0,0" VerticalAlignment="Top" Height="28" Width="84" Click="ReservationsUpdateButton_Click"/>
+                    <Button x:Name="Update" Grid.Column="2" Content="Update" HorizontalAlignment="Left" Margin="166,269,0,0" VerticalAlignment="Top" Height="28" Width="84" Click="ReservationsUpdateButton_Click"/>
                     <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="30,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="44" Height="18" TextAlignment="Right"><Run Language="en-ca" Text="Code:"/></TextBlock>
                     <TextBox Name="reserveCodeInput" Grid.Column="2" HorizontalAlignment="Left" Margin="97,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" IsReadOnly="True"/>
                     <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="42,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Right"><Run Language="en-ca" Text="Flight:"/></TextBlock>

@@ -244,22 +244,21 @@ namespace Traveless
             // Get "Citizenship" input value
             string citizenship = reserveCitizenInput.Text;
             // Create bool variable called "isReservationActive"
-            bool isReservationActive;
+            bool isReservationActive = false;
             // Check if "Status" combobox has "Active" selected
             // Assign true to "isReservationActive"
             // Otherwise
+            // Check if "Status" combobox has "Active" selected
+           
             // Assign false to "isReservationActive"
             if (ReserveStatus.SelectedItem != null && ReserveStatus.SelectedItem.ToString() == "Active")
             {
                 isReservationActive = true;
             }
-            else
-            {
-                isReservationActive = false;
-            }
+            
 
             // Call UpdateReservation method with code, name, citizenship, and isActive
-            ReservationManager.Update(reservationCode, name, citizenship, isReservationActive);
+            UpdateReservation(reservationCode, name, citizenship, isReservationActive);
         }
 
 
@@ -382,10 +381,10 @@ namespace Traveless
             foreach (var reservation in ReservationManager.Reservations)
             {
                 bool noSearchCriteria = code == null && airlineCode == null && name == null ? true : false;
-                //bool criteriaMatches = reservation.Code.Contains(code) && reservation.Flight.AirlineCode.Contains(airlineCode) && reservation.Name.Contains(name) ? true : false;
                 bool criteriaMatches = (string.IsNullOrEmpty(code) || reservation.Code.Contains(code))
                                && (string.IsNullOrEmpty(airlineCode) || reservation.Flight.AirlineCode.Contains(airlineCode))
                                && (string.IsNullOrEmpty(name) || reservation.Name.Contains(name));
+                
                 if (noSearchCriteria || criteriaMatches)
                 {
                     var rvm = new ReservationViewModel(reservation);
